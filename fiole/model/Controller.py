@@ -1,9 +1,7 @@
-from flask_restful import Resource
+from fiole.model.Component import Component
 
-class Controller(Resource):
+class Controller(Component):
+    _PATH = "/"
 
     def __init__(self) -> None:
-        self._PATH = "/"
-
-    def getRoutes(self) -> str:
-        self._PATH
+        super().__init__()

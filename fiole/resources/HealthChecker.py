@@ -3,7 +3,7 @@ import json
 from healthcheck import HealthCheck
 from fiole.model.metaclass.Singleton import Singleton
 
-class Actuator(metaclass=Singleton):
+class HealthChecker(metaclass=Singleton):
 
     def __init__(self) -> None:
         self.healthcheck = HealthCheck()

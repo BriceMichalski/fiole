@@ -1,13 +1,11 @@
 from html2text import re
-from fiole.importation.Controller import *
-from fiole.model.Controller import Controller
-from fiole.resources.Actuator import Actuator
-import json
+from fiole.model.RestController import RestController
+from fiole.resources.HealthChecker import HealthChecker
 
-class HealthController(Controller):
+class HealthController(RestController):
 
     def __init__(self) -> None:
-        self.actuator = Actuator()
+        self.healthChecker = HealthChecker()
 
     def get(self):
-        return self.actuator.getHealth()
+        return self.healthChecker.getHealth()

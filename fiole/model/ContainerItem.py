@@ -1,12 +1,12 @@
 from datetime import datetime
 
-class RegistryItem():
+class ContainerItem():
 
-    def __init__(self, obj, identifier :str ="") -> None:
+    def __init__(self, obj, cls =None, identifier :str =None) -> None:
         self._obj = obj
-        self._cls = type(obj).__name__
+        self._cls = type(obj) if cls is None else cls
+        self._identifier = self._cls if identifier is None else identifier
         self._lastAccess = None
-        self._identifier = identifier
     
     def getObj(self):
         self._lastAccess = datetime.now()
