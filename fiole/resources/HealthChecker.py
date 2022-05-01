@@ -1,4 +1,4 @@
-import psutil
+import shutil
 import json
 from healthcheck import HealthCheck
 from fiole.model.metaclass.Singleton import Singleton
@@ -11,12 +11,11 @@ class HealthChecker(metaclass=Singleton):
 
 
     def defaultHealthCheck(self):
-        self.healthcheck
         self.addHealthCheck(self.freeSpace)
 
     def freeSpace(self):
         """free disk space"""
-        hdd = psutil.disk_usage("/")
+        hdd = shutil.disk_usage("/")
         if hdd.free > 0 : 
             return True, { "msg": "Free disk space: %d GiB" % (hdd.free // (2**30)) }
         else:
