@@ -16,7 +16,7 @@ setup(
     long_description_content_type="text/markdown",
     include_package_data=True,
     name="fiole",
-    packages=find_packages(include=["fiole"]),
+    packages=find_packages(),
     url="https://github.com/BriceMichalski/fiole",
     version="0.1.0",
     zip_safe=False,
