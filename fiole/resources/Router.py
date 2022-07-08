@@ -1,9 +1,9 @@
 
 from flask_restful import Api
 
-from fiole.model.Controller import Controller
+from fiole.model.web.Controller import Controller
 from fiole.resources.Logger import Logger
-from fiole.resources.Container import Container
+from fiole.model.framework.Container import Container
 from fiole.web.HealthController import HealthController
 
 

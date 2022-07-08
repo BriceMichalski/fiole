@@ -1,4 +1,4 @@
-from fiole.model.Component import Component
+from fiole.model.framework.Component import Component
 
 class Controller(Component):
     _PATH = "/"

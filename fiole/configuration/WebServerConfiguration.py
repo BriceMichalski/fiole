@@ -1,10 +1,11 @@
 import os
-import time
-from fiole.model.LogLevel import LogLevel 
-from fiole.model.metaclass.Singleton import Singleton
 
-class WebServerConfigutation(metaclass=Singleton):
+from fiole.model.LogLevel import LogLevel 
+from fiole.configuration.AbstractConfiguration import AbstractConfiguration
+
+class WebServerConfigutation(AbstractConfiguration):
     def __init__(self) -> None:
+        super().__init__()
         self._port = os.getenv("SERVER_PORT") if os.getenv("SERVER_PORT") is not None else 8080
         self._host = os.getenv("SERVER_HOST") if os.getenv("SERVER_HOST") is not None else "0.0.0.0"
         self._logLevel = LogLevel.__dict__.get(os.getenv("LOG_LEVEL")) if os.getenv("LOG_LEVEL") is not None else LogLevel.INFO

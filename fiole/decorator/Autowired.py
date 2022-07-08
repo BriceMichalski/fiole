@@ -1,6 +1,6 @@
 import inspect
 
-from fiole.resources.Container import Container
+from fiole.model.framework.Container import Container
 
 def Autowired(input):
     

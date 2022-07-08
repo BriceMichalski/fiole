@@ -1,5 +1,5 @@
 import os
-from fiole.model.Component import Component
+from fiole.model.framework.Component import Component
 
 class Configuration(Component):
 

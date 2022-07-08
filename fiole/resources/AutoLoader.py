@@ -9,13 +9,14 @@ from flask_restful import Api
 from threading import Thread
 
 from fiole.model.Configuration import Component
-from fiole.model.Controller import Controller
+from fiole.model.threading.DaemonProcess import DaemonProcess
+from fiole.model.web.Controller import Controller
 from fiole.model.Configuration import Configuration
-from fiole.model.Process import Process
+from fiole.model.threading.Process import Process
 
 from fiole.resources.Logger import Logger
 from fiole.resources.Router import Router
-from fiole.resources.Container import Container
+from fiole.model.framework.Container import Container
 from fiole.resources.HealthChecker import HealthChecker
 from fiole.utils.ModuleUtils import ModuleUtils
 
@@ -87,25 +88,35 @@ class AutoLoader():
             moduleClass = getattr(module, moduleName)
 
             if issubclass(moduleClass,Controller): 
-                Container.register(moduleClass,cls=Controller,identifier=moduleClass)
+                Container.register(moduleClass,cls=Controller,qualifier=moduleClass)
                 continue
             
             if issubclass(moduleClass,Configuration):
-                Container.register(moduleClass(),cls=Configuration,identifier=moduleClass)
+                Container.register(moduleClass(),cls=Configuration,qualifier=moduleClass)
                 continue
 
             if issubclass(moduleClass,Process):
                 process :Process = moduleClass()
                 threadName = "{}Thread".format(moduleClass.__name__)
-
-                processThread = Thread(target=process.start,name=threadName)
                 process.setName(threadName)
 
-                Container.register(process,cls=Process,identifier=moduleClass)
-                Container.register(processThread,cls=Thread,identifier=threadName)
+                if issubclass(moduleClass,DaemonProcess):
+                    
+                    processThread = Thread(target=process.start,name=process.threadName,daemon=True)
+                    Container.register(process,cls=DaemonProcess,qualifier=moduleClass)
+                else: 
+                    processThread = Thread(target=process.start,name=process.threadName,daemon=False)
+                    Container.register(process,cls=Process,qualifier=moduleClass)
+                
+                Container.register(processThread,cls=Thread,qualifier=processThread)
                 processThread.start()
+                self.logger.trace("Starting process named {name} in a new {optionnal} Thread".format(
+                    name=moduleClass.__name__,
+                    optionnal= "daemonic" if issubclass(moduleClass,DaemonProcess) else ''
+                ))
+                
                 continue
 
             if issubclass(moduleClass,Component):
-                Container.register(moduleClass(),cls=Component,identifier=moduleClass)
+                Container.register(moduleClass(),cls=Component,qualifier=moduleClass)
                 continue

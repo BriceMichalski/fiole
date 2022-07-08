@@ -1,5 +1,5 @@
 from abc import abstractmethod
-from fiole.model.Component import Component
+from fiole.model.framework.Component import Component
 
 class Process(Component):
 
@@ -9,7 +9,6 @@ class Process(Component):
 
     def setName(self,threadName :str):
         self.threadName = threadName
-        pass
 
     @abstractmethod
     def start(self):

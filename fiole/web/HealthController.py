@@ -1,5 +1,5 @@
-from html2text import re
-from fiole.model.RestController import RestController
+
+from fiole.model.web.RestController import RestController
 from fiole.resources.HealthChecker import HealthChecker
 
 class HealthController(RestController):

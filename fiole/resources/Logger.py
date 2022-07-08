@@ -32,9 +32,9 @@ class Logger(metaclass=Singleton):
         formattedMessage = {
             "datetime": str(now),
             "level": level,
-            "message": msg,
-            "origin": origin,
             "thread": threadName,
+            "emitter": origin,
+            "message": msg,
         }
 
         return json.dumps(formattedMessage)

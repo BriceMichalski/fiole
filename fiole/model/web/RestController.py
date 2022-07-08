@@ -1,6 +1,6 @@
 
 from flask_restful import Resource
-from fiole.model.Controller import Controller
+from fiole.model.web.Controller import Controller
 
 class RestController(Resource,Controller):
     
