@@ -1,6 +1,6 @@
 """The setup script."""
 
-from setuptools import setup, find_packages
+from setuptools import find_packages, setup
 
 with open("requirements.txt") as f:
     requirements = f.read().splitlines()
@@ -18,7 +18,7 @@ setup(
     name="fiole",
     packages=find_packages(),
     url="https://github.com/BriceMichalski/fiole",
-    version="0.1.0",
+    version="0.2.0",
     zip_safe=False,
     entry_points={"console_scripts": ["fiole=fiole.resources.Cli:main"]},
 )

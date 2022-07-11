@@ -1,7 +1,9 @@
 from typing import List
-from fiole.model.metaclass.Singleton import Singleton 
+
 from fiole.model.framework.ContainerItem import ContainerItem
+from fiole.model.metaclass.Singleton import Singleton
 from fiole.resources.Logger import Logger
+
 
 class Container(metaclass=Singleton):
 

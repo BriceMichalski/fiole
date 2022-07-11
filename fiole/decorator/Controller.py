@@ -1,4 +1,4 @@
-from fiole.model.web.Controller import Controller
+from fiole.model.framework.Controller import Controller
 from fiole.resources.Logger import Logger
 
 """  Decorator that add _PATH varaible on Controller"""

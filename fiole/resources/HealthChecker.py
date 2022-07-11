@@ -1,8 +1,9 @@
-import shutil
 import json
+import shutil
 
-from healthcheck import HealthCheck
 from fiole.model.metaclass.Singleton import Singleton
+from healthcheck import HealthCheck
+
 
 class HealthChecker(metaclass=Singleton):
 
@@ -26,7 +27,7 @@ class HealthChecker(metaclass=Singleton):
         self.healthcheck.add_check(func)
 
     def getHealth(self):
-        msg, code, header = self.healthcheck.check()
+        msg, code, header = self.healthcheck.run()
         health = json.loads(msg)
         health.pop("hostname")
         return health, code, header 
