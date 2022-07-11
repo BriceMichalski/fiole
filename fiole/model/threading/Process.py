@@ -1,3 +1,4 @@
+from threading import current_thread
 from abc import abstractmethod
 from fiole.model.framework.Component import Component
 
@@ -13,3 +14,6 @@ class Process(Component):
     @abstractmethod
     def start(self):
         pass
+
+    def stop(self):
+        current_thread()._stop()

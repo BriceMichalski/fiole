@@ -1,5 +1,6 @@
-import os
 import inspect
+import os
+
 
 class ModuleUtils:
 

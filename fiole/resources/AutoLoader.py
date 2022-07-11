@@ -1,24 +1,19 @@
-from os import name
-import sys
-import logging
 import importlib
-
-from flask import Flask
+import logging
+import sys
 from pathlib import Path
-from flask_restful import Api
 from threading import Thread
 
-from fiole.model.Configuration import Component
-from fiole.model.threading.DaemonProcess import DaemonProcess
-from fiole.model.web.Controller import Controller
-from fiole.model.Configuration import Configuration
-from fiole.model.threading.Process import Process
-
-from fiole.resources.Logger import Logger
-from fiole.resources.Router import Router
+from fiole.model.Configuration import Component, Configuration
 from fiole.model.framework.Container import Container
+from fiole.model.framework.Controller import Controller
+from fiole.model.threading.DaemonProcess import DaemonProcess
+from fiole.model.threading.Process import Process
 from fiole.resources.HealthChecker import HealthChecker
+from fiole.resources.Logger import Logger
+from fiole.resources.RouterV2 import RouterV2
 from fiole.utils.ModuleUtils import ModuleUtils
+from flask import Flask
 
 
 class AutoLoader():
@@ -27,7 +22,6 @@ class AutoLoader():
         self.logger = Logger()
 
     def load(self,app :Flask):
-        
         self.logger.trace("Component container creation")
         Container.instance()
         Container.register(app)
@@ -38,32 +32,31 @@ class AutoLoader():
         self.logger.trace("Loading dynamic component")
         self.dynamicLoading()
         
-        self.logger.trace("Call router routes registration function")
+        # self.logger.trace("Call router routes registration function")
         self.loadRoutes()
     
     """ Static loader"""
     def loadStaticComponent(self):
         self.loadLogger()
         self.loadHealthChecker()
-        self.loadApi()
         self.loadRouter()
 
-    def loadApi(self):
-        api = Api(Container.retrieve(Flask))
-        Container.register(api)
-    
+
     def loadRouter(self):
-        router = Router(Container.retrieve(Api))
+        router = RouterV2()
         Container.register(router)
 
+
     def loadRoutes(self):
-        router :Router = Container.retrieve(Router)
+        router :RouterV2 = Container.retrieve(RouterV2)
         router.routeRegistration()
+
 
     def loadHealthChecker(self):
         healthChecker = HealthChecker()
         Container.register(healthChecker)
     
+
     def loadLogger(self):
         cli = sys.modules['flask.cli']
         cli.show_server_banner = lambda *x: None
@@ -80,10 +73,9 @@ class AutoLoader():
         for file in projectPythonFile:
             if str(file) == ModuleUtils.getMainModuleAbsPath():
                 self.logger.trace("Ignoring main module registration")
-                continue
+                continue     
 
             moduleImportString, moduleName = ModuleUtils.getImportStringFromPath(file)
-
             module = importlib.import_module(moduleImportString)
             moduleClass = getattr(module, moduleName)
 

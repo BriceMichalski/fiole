@@ -1,2 +1,2 @@
 from .Controller import Path
-from .Logger import Logger
+from .framework.Logger import Logger
